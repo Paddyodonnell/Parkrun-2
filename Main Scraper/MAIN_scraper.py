@@ -32,7 +32,7 @@ def solve_captcha(driver):
                 start_time = t.time()
             else:
                 print('Captcha detected, please solve it manually...')
-                print('You have 4 minutes to solve the CAPTCHA before refresh...')
+                print('You have 3 minutes to solve the CAPTCHA before refresh...')
 
                 while True:
                     if t.time() - start_time > timeout:
