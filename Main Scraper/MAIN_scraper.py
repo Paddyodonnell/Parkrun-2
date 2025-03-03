@@ -11,6 +11,7 @@ options = webdriver.EdgeOptions()
 options.add_argument('--inprivate')
 driver = webdriver.Edge(options=options)
 
+
 def solve_captcha(driver):
     timeout = 180
     start_time = t.time()
@@ -22,7 +23,8 @@ def solve_captcha(driver):
 
         if captcha_detected:
             current_time = t.time()
-            print(f"CAPTCHA detected. time elapsed: {current_time - start_time} seconds")
+            print(
+                f"CAPTCHA detected. time elapsed: {current_time - start_time} seconds")
 
             if current_time - start_time > timeout:
                 print("captcha timeout reached. Refreshing page...")
@@ -49,7 +51,8 @@ def solve_captcha(driver):
                         if sys.stdin in select.select([sys.stdin], [], [], 1)[0]:
                             input_text = input()
                             if input_text == "":
-                                print("Manual CAPTCHA solving completed. Rechecking for CAPTCHA...")
+                                print(
+                                    "Manual CAPTCHA solving completed. Rechecking for CAPTCHA...")
                                 break
                     except Exception:
                         pass
@@ -61,8 +64,8 @@ def solve_captcha(driver):
                         print('CAPTCHA no longer detected. Proceeding...')
                         return soup
         else:
-            print('No CAPTCHA detected. Proceeding...')
             return soup
+
 
 all_ireland = []
 
@@ -71,14 +74,15 @@ events = pd.read_csv('Main Scraper/eventnames_full.csv')
 try:
     for event in events['eventname']:
         url = f'https://www.parkrun.ie/{event}/results/latestresults/'
-        print(f'scraping event number: {event}')
+        print(f'Scraping Parkrun event: {event}')
         driver.get(url)
 
         soup = solve_captcha(driver)
 
-        number_element = int(soup.find('div', class_='aStat').find('span', class_='num').text.strip())
+        number_element = int(soup.find('div', class_='aStat').find(
+            'span', class_='num').text.strip())
 
-        file_path = rf'C:\Users\odonnellpaddy\OneDrive - Meta\Parkrun 2\scraped_files\{event}.json'
+        file_path = rf'C:\Users\paddy\OneDrive - Trinity College Dublin\Parkrun-2\scraped_files\{event}.json'
         if os.path.exists(file_path):
             with open(file_path, 'r', encoding='utf-8') as f:
                 existing_data = json.load(f)
@@ -88,12 +92,12 @@ try:
             last_scraped_number = 0
 
         # Only scrape new events
-        numbers = range(number_element, last_scraped_number, -1)  
+        numbers = range(number_element, last_scraped_number, -1)
         all_runners = []
 
         for number in numbers:
             url = f'https://www.parkrun.ie/{event}/results/{number}/'
-            print(f'Scraping event number: {number}')
+            print(f'Scraping {event} number: {number}')
             driver.get(url)
 
             soup = solve_captcha(driver)
@@ -102,7 +106,8 @@ try:
             date = date_element.text.strip() if date_element else 'unknown date'
 
             location_element = soup.find('h1')
-            location = location_element.text.strip()[:-8] if location_element else 'unknown location'
+            location = location_element.text.strip(
+            )[:-8] if location_element else 'unknown location'
 
             timeout = 30
             start_time = t.time()
@@ -113,7 +118,8 @@ try:
                 if table:
                     break
                 if t.time() - start_time > timeout:
-                    print(f'Timeout: No table found for event number: {number}')
+                    print(
+                        f'Timeout: No table found for event number: {number}')
                     break
 
                 print(f'Retrying event number: {number}...')
@@ -126,7 +132,8 @@ try:
             rows = table.find_all('tr', class_='Results-table-row')
 
             # Extract event number from the page
-            event_number_element = soup.find('span', text=lambda x: x and x.startswith('#'))
+            event_number_element = soup.find(
+                'span', text=lambda x: x and x.startswith('#'))
             if event_number_element:
                 number_element_b = int(event_number_element.text.strip('#'))
             else:
@@ -144,17 +151,21 @@ try:
                 age_grade = row.get('data-agegrade', '0.00')
 
                 time_cell = row.find('td', class_='Results-table-td--time')
-                time = time_cell.find('div', class_='compact').text.strip() if time_cell and time_cell.find('div') else 'N/A'
+                time = time_cell.find('div', class_='compact').text.strip(
+                ) if time_cell and time_cell.find('div') else 'N/A'
 
                 club_cell = row.find('td', class_='Results-table-td--club')
-                club_link = club_cell.find('div', class_='compact').text.strip() if club_cell and club_cell.find('div') else 'N/A'
+                club_link = club_cell.find('div', class_='compact').text.strip(
+                ) if club_cell and club_cell.find('div') else 'N/A'
 
                 # Extract parkrunner ID
-                a_tag = row.find('a', href=True)  # Find the <a> tag with an href attribute
+                # Find the <a> tag with an href attribute
+                a_tag = row.find('a', href=True)
                 parkrunner_id = None
                 if a_tag:
                     href = a_tag['href']  # Get the href attribute value
-                    parkrunner_id = href.split('/parkrunner/')[1]  # Extract the numeric part
+                    # Extract the numeric part
+                    parkrunner_id = href.split('/parkrunner/')[1]
 
                 all_runners.append({
                     'Name': name,
