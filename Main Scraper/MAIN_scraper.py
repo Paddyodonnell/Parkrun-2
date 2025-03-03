@@ -82,7 +82,7 @@ try:
         number_element = int(soup.find('div', class_='aStat').find(
             'span', class_='num').text.strip())
 
-        file_path = rf'C:\Users\paddy\OneDrive - Trinity College Dublin\Parkrun-2\scraped_files\{event}.json'
+        file_path = rf'C:\Users\odonnellpaddy\OneDrive - Meta\Parkrun 2\scraped_files\{event}.json'
         if os.path.exists(file_path):
             with open(file_path, 'r', encoding='utf-8') as f:
                 existing_data = json.load(f)
@@ -192,6 +192,3 @@ try:
 finally:
     driver.quit()
 
-
-# Scraping event number: 354
-# [24044:4704:0226/103213.423:ERROR:device_event_log_impl.cc(243)] [10:32:13.421] USB: usb_service_win.cc:105 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
