@@ -26,21 +26,47 @@ def solve_captcha(driver):
         captcha_detected = soup.find('div', id='captcha-container')
 
         if captcha_detected:
-            print(f"CAPTCHA detected. Elapsed time: {t.time() - start_time:.2f} sec")
-            if t.time() - start_time > timeout:
-                print("CAPTCHA timeout reached. Refreshing page...")
+            current_time = t.time()
+            print(
+                f"CAPTCHA detected. time elapsed: {current_time - start_time} seconds")
+
+            if current_time - start_time > timeout:
+                print("captcha timeout reached. Refreshing page...")
                 driver.refresh()
                 t.sleep(10)
+                print("Page refreshed. Rechecking for CAPTCHA...")
                 start_time = t.time()
             else:
-                print("Please solve the CAPTCHA manually (press Enter when done)...")
-                input()
-                html = driver.page_source
-                soup = BeautifulSoup(html, 'lxml')
-                captcha_detected = soup.find('div', id='captcha-container')
-                if not captcha_detected:
-                    print("CAPTCHA solved. Continuing...")
-                    return soup
+                print('Captcha detected, please solve it manually...')
+                print('You have 3 minutes to solve the CAPTCHA before refresh...')
+
+                while True:
+                    if t.time() - start_time > timeout:
+                        print("Captcha timeout reached. Refreshing page...")
+                        driver.refresh()
+                        t.sleep(10)
+                        print("Page refreshing. Rechecking for CAPTCHA...")
+                        start_time = t.time()
+                        break
+
+                    try:
+                        import sys
+                        import select
+                        if sys.stdin in select.select([sys.stdin], [], [], 1)[0]:
+                            input_text = input()
+                            if input_text == "":
+                                print(
+                                    "Manual CAPTCHA solving completed. Rechecking for CAPTCHA...")
+                                break
+                    except Exception:
+                        pass
+
+                    html = driver.page_source
+                    soup = BeautifulSoup(html, 'lxml')
+                    captcha_detected = soup.find('div', id='captcha-container')
+                    if not captcha_detected:
+                        print('CAPTCHA no longer detected. Proceeding...')
+                        return soup
         else:
             return soup
 

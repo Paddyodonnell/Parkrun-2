@@ -67,8 +67,6 @@ def solve_captcha(driver):
             return soup
 
 
-all_ireland = []
-
 events = pd.read_csv('Main Scraper/eventnames_full.csv')
 
 try:

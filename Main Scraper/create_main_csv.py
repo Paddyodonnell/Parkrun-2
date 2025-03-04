@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import os
 
-jsons = 'C:\Users\paddy\OneDrive - Trinity College Dublin\Parkrun-2\scraped_files'
+jsons = 'C:/Users/odonnellpaddy/OneDrive - Meta/Parkrun 2/scraped_files'
 
 all_data = []
 
