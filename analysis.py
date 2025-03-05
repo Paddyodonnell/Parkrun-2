@@ -1,25 +1,13 @@
 import pandas as pd
 
-df = pd.read_csv('irish_parkruns.csv')
-data = df[df['Name'] != 'Unknown']
+df = pd.read_csv('parkrun_summary.csv')
 
-print(df['parkrunner_id'].nunique)
+print(df.columns)
 
-# Count races per individual
-races_per_runner = df['parkrunner_id'].value_counts().reset_index()
-races_per_runner.columns = ['parkrunner_id', 'num_races']
+print(df[df['Most Recent Number of Locations']>=5].shape[0])
 
-print(races_per_runner.head())  # Check the output
+# subset data, only parkrunners who have done 10 locations or more
 
-# Count unique locations per runner
-locations_per_runner = df.groupby('parkrunner_id')['event_name'].nunique().reset_index()
-locations_per_runner.columns = ['parkrunner_id', 'num_unique_locations']
+df_2 = df[df['Most Recent Number of Locations']>=10]
 
-print(locations_per_runner.head())  # Check the output
-
-# Merge the two datasets
-runner_summary = races_per_runner.merge(locations_per_runner, on='runner_id')
-
-print(runner_summary.head())  # View the summary
-
-
+print(df_2.head())
