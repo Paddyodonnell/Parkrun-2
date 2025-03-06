@@ -67,7 +67,7 @@ def solve_captcha(driver):
             return soup
 
 
-events = pd.read_csv('Main Scraper/eventnames_full.csv')
+events = pd.read_csv('Data/eventnames_full.csv')
 
 try:
     for event in events['eventname']:
@@ -80,7 +80,7 @@ try:
         number_element = int(soup.find('div', class_='aStat').find(
             'span', class_='num').text.strip())
 
-        file_path = rf'C:\Users\odonnellpaddy\OneDrive - Meta\Parkrun 2\scraped_files\{event}.json'
+        file_path = rf'Data\scraped_files\{event}.json'
         if os.path.exists(file_path):
             with open(file_path, 'r', encoding='utf-8') as f:
                 existing_data = json.load(f)

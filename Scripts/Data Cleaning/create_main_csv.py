@@ -2,7 +2,7 @@ import json
 import pandas as pd
 import os
 
-jsons = 'C:/Users/odonnellpaddy/OneDrive - Meta/Parkrun 2/scraped_files'
+jsons = 'Data/scraped_files'
 
 all_data = []
 
@@ -20,4 +20,4 @@ for scraped_file in os.listdir(jsons):
 
 df = pd.DataFrame(all_data)
 
-df.to_csv('irish_parkruns.csv', index=False)
+df.to_csv('Data/irish_parkruns.csv', index=False)

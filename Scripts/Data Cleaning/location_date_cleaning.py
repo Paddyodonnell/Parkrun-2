@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('irish_parkruns.csv')
+df = pd.read_csv('Data/irish_parkruns.csv')
 df = df[df['Name']!='Unknown']
 
 ## Mistakes with paricular names
@@ -12,7 +12,7 @@ event_update = {
     90: ('Glengarrif', '11/4/17')
 }
 
-mask = (df['Location'] == "Hmmm… can't reach t") & (df['Date'] == 'Unknown date')
+mask = (df['Location'] == "Hmmm… can't reach t") & (df['Date'] == 'unknown date')
 
 for event_num, (location, date) in event_update.items():
     df.loc[mask & (df['Event Number'] == event_num), ['Location', 'Date']] = location, date
@@ -65,15 +65,15 @@ event_updates = {
 }
 
 # Apply updates only where Location and Date are 'Unknown'
-mask = (df['Location'] == 'Unknown Location') & (df['Date'] == 'Unknown Date')
+mask = (df['Location'] == 'unknown location') & (df['Date'] == 'unknown date')
 
 # Update DataFrame using .loc for efficient assignment
 for event_num, (location, date) in event_updates.items():
     df.loc[mask & (df['Event Number'] == event_num), ['Location', 'Date']] = location, date
 
-print((df['Location']=='Unknown Location').sum())
+print((df['Location']=='unknown location').sum())
 
-df.to_csv('cleaned_irish_parkruns.csv', index=False)
+df.to_csv('Data/cleaned_irish_parkruns.csv', index=False)
 
 print(df['Location'].unique())
 

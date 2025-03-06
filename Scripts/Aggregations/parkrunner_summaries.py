@@ -1,7 +1,7 @@
 import pandas as pd
-from functions import ms2s, s2ms
+from utils.functions import ms2s, s2ms
 
-df = pd.read_csv('cleaned_irish_parkruns.csv')
+df = pd.read_csv('Data/cleaned_irish_parkruns.csv')
 df['Time in Seconds'] = df['Time'].apply(ms2s)
 
 # print(df.head())
@@ -28,6 +28,9 @@ runners_location_counts = df.groupby('Parkrunner ID')['Location'].nunique()
 runners_10_locations = (runners_location_counts >= 10).sum()
 print(f"Number of runners who have completed at least 10 different parkrun locations: {runners_10_locations}")
 
+######################################################################
+######################################################################
+
 # Define aggregation rules
 aggregations = {
     'Name': 'first',  # Assuming name remains consistent for each runner
@@ -45,8 +48,8 @@ aggregations = {
 df = df.sort_values(by=['Parkrunner ID', 'Date'])
 
 location_aggregations = df.groupby('Parkrunner ID')['Location'].agg(
-    Last_Location='last',
-    Unique_Locations='nunique'
+    Locations= lambda x: list(set(x)),  # Store unique location names as a list
+    Unique_Locations='nunique' # Number of unique locations
 )
 
 # Group by Parkrunner ID and apply the aggregations
@@ -62,14 +65,14 @@ df_summary.rename(columns={
     'Volunteers': 'Most recent Volunteers',
     'Age Grade': 'Average Age Grade',
     'Time in Seconds': 'Average Time in Seconds',
-    'Unique_Locations': 'Most Recent Number of Locations',
-    'Last_Location': 'Location'
+    'Locations': 'Location Names',
+    'Unique_Locations': 'Number of Locations'
 }, inplace=True)
 
 df_summary['Average Time'] = df_summary['Average Time in Seconds'].apply(s2ms)
 
 # Save to CSV
-df_summary.to_csv("parkrun_summary.csv", index=False)
+df_summary.to_csv("Data/parkrun_summary.csv", index=False)
 
 print("CSV file created: parkrun_summary.csv")
 
