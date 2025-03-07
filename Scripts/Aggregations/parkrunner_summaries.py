@@ -1,4 +1,8 @@
 import pandas as pd
+import sys
+import os
+# Ensure the parent directory is in sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from utils.functions import ms2s, s2ms
 
 df = pd.read_csv('Data/cleaned_irish_parkruns.csv')
@@ -72,7 +76,10 @@ df_summary.rename(columns={
 df_summary['Average Time'] = df_summary['Average Time in Seconds'].apply(s2ms)
 
 # Save to CSV
-df_summary.to_csv("Data/parkrun_summary.csv", index=False)
+df_summary.to_csv("Data/parkrunner_summaries.csv", index=False)
 
-print("CSV file created: parkrun_summary.csv")
+print("CSV file created: parkrun_summaries.csv")
 
+df_summary_over_5 = df_summary[df_summary['Number of Locations']>=5]
+
+df_summary_over_5.to_csv('Data/over_5.csv', index=False)

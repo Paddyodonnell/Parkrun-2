@@ -1,4 +1,8 @@
 import pandas as pd
+import sys
+import os
+# Ensure the parent directory is in sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
 from utils.functions import ms2s, s2ms
 
 df = pd.read_csv('Data/cleaned_irish_parkruns.csv')
@@ -13,19 +17,16 @@ aggregations = {
 
 df_summary = df.groupby('Location').agg(aggregations).reset_index()
 
-df_summary.to_csv('location_averages.csv', index=False)
+df_summary.to_csv('Data/location_averages.csv', index=False)
+
+df = pd.read_csv('Data/location_averages.csv')
+
+df_summary_over_5 = df[df['Number of Locations']>=5]
+
+df_summary_over_5.to_csv('over_5.csv', index=False)
 
 
 
-
-
-# print(df[df['Most Recent Number of Locations']>=5].shape[0])
-
-# # subset data, only parkrunners who have done 10 locations or more
-
-# df_2 = df[df['Most Recent Number of Locations']>=10]
-
-# # Summary of locations
 
 
 
