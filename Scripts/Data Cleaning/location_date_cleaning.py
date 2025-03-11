@@ -1,7 +1,14 @@
 import pandas as pd
+import sys
+import os
+# Ensure the parent directory is in sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+from utils.functions import ms2s, s2ms
 
 df = pd.read_csv('Data/irish_parkruns.csv')
 df = df[df['Name']!='Unknown']
+# Add time in seconds
+df['Time in Seconds'] = df['Time'].apply(ms2s)
 
 ## Mistakes with paricular names
 

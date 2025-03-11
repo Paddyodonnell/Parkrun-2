@@ -6,7 +6,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '.
 from utils.functions import ms2s, s2ms
 
 df = pd.read_csv('Data/cleaned_irish_parkruns.csv')
-df['Time in Seconds'] = df['Time'].apply(ms2s)
 
 # print(df.head())
 
