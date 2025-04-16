@@ -50,10 +50,25 @@ aggregations = {
 # Ensure data is sorted by Date so that 'last' works correctly
 df = df.sort_values(by=['Parkrunner ID', 'Date'])
 
-location_aggregations = df.groupby('Parkrunner ID')['Location'].agg(
-    Locations= lambda x: list(set(x)),  # Store unique location names as a list
-    Unique_Locations='nunique' # Number of unique locations
-)
+# location_aggregations = df.groupby('Parkrunner ID')[['Location', 'Age Grade', 'Time in Seconds']].agg(
+#     Locations= lambda x: list(set(x)),  # Store unique location names as a list
+#     Unique_Locations=('Location', 'nunique') # Number of unique locations
+# )
+
+def aggregate_runner_data(group):
+    Locations = list(group['Location'].unique())  # Unique locations in order of appearance
+    Times = [float(group.loc[group['Location'] == loc, 'Time in Seconds'].mean()) for loc in Locations]
+    Age_Grades = [float(group.loc[group['Location'] == loc, 'Age Grade'].mean()) for loc in Locations]
+
+    return pd.Series({
+        'Locations': Locations,
+        'Unique_Locations': len(Locations),
+        'Times': Times,
+        'Age_Grades': Age_Grades
+    })
+
+location_aggregations = df.groupby('Parkrunner ID').apply(aggregate_runner_data).reset_index()
+
 
 # Group by Parkrunner ID and apply the aggregations
 df_summary = df.groupby('Parkrunner ID').agg(aggregations).reset_index()

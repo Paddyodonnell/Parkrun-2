@@ -13,10 +13,10 @@ df['Time in Seconds'] = df['Time'].apply(ms2s)
 ## Mistakes with paricular names
 
 # Hmmm… can't reach t
-# Glengarrif, 11/4/17
+# Glengarriff, 11/4/17
 
 event_update = {
-    90: ('Glengarrif', '11/4/17')
+    90: ('Glengarriff', '11/4/17')
 }
 
 mask = (df['Location'] == "Hmmm… can't reach t") & (df['Date'] == 'unknown date')
@@ -62,13 +62,13 @@ df['Location'] = df['Location'].str.replace("Deerpark Forest parkrun,", "Deerpar
 
 # Newcastle West, 55, 5/13/17
 
-# Tramore Valley parkr, 97, 3/16/24
+# Tramore Valley, Cork, 97, 3/16/24
 
 event_updates = {
     260: ('Ballincollig', '1/21/23'),
     22: ('Brickfields', '6/9/18'),
     55: ('Newcastle West', '5/13/17'),
-    97: ('Tramore Valley parkr', '3/16/24')
+    97: ('Tramore Valley, Cork', '3/16/24')
 }
 
 # Apply updates only where Location and Date are 'Unknown'
@@ -82,6 +82,14 @@ print((df['Location']=='unknown location').sum())
 
 df.to_csv('Data/cleaned_irish_parkruns.csv', index=False)
 
-print(df['Location'].unique())
+for location in df['Location'].unique():
+    print(location)
+
+if df['Location'].nunique() == 110:
+    print('All good')
+else:
+    print('Something went wrong')
+
+print(df['Location'].nunique())
 
 
