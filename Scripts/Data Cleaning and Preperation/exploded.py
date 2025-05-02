@@ -4,6 +4,7 @@ import ast  # To safely convert string lists to actual lists
 # Sample DataFrame (Replace this with your actual CSV reading step)
 df = pd.read_csv("Data/over_5.csv")
 
+# replace nans from Age_Grades with 0s. (Remember to remove if averaging)
 df["Age_Grades"] = df["Age_Grades"].str.replace('nan', '0', regex=False)
 
 # Convert string lists into actual lists

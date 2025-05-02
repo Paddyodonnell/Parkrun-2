@@ -23,14 +23,5 @@ df_summary["Age Grade"] = df_summary["Age Grade"].round(2)
 df_summary.to_csv('Data/location_averages.csv', index=False)
 
 
-# print(df[df['Most Recent Number of Locations']>=5].shape[0])
-
-# # subset data, only parkrunners who have done 10 locations or more
-
-# df_2 = df[df['Most Recent Number of Locations']>=10]
-
-# # Summary of locations
-
-
 
 

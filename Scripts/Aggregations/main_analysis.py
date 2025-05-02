@@ -16,26 +16,12 @@ location_performance_time = df.groupby("Location Names")["Time Deviation"].mean(
 # Rank locations from fastest to slowest
 location_performance_time = location_performance_time.sort_values()
 
-location_performance_time.to_csv('location_difficulty_time', index=False)
+location_performance_time.to_csv('Data/location_difficulty_time', index=False)
+
 
 #####################################################
 
 # visualisations
-
-# # Plot top 20 fastest locations
-# location_performance_time.head(20).plot(kind='barh', figsize=(10, 8), color='green')
-# plt.xlabel("Avg Time Deviation (Seconds)")
-# plt.title("Top 20 Fastest Parkrun Locations")
-# plt.gca().invert_yaxis()  # So rank 1 is at the top
-# plt.tight_layout()
-# plt.show()
-
-# # Plot top 20 slowest locations
-# location_performance_time.tail(20).plot(kind='barh', figsize=(10, 8), color='red')
-# plt.xlabel("Avg Time Deviation (Seconds)")
-# plt.title("Top 20 Slowest Parkrun Locations")
-# plt.tight_layout()
-# plt.show()
 
 plt.figure(figsize=(10, 6))
 sns.histplot(location_performance_time, bins=30, kde=True)
@@ -48,10 +34,11 @@ plt.show()
 
 location_performance_time.plot(kind='barh', figsize=(10, 15), color='red')
 plt.xlabel("Avg Time Deviation (Seconds)")
-plt.title("Relative Difficulty of Irish Parkruns")
+plt.title("Relative Difficulty of Irish Parkruns (Time)")
 plt.tight_layout()
 plt.savefig("Data/Graphs/relative_difficulty(Time).png", dpi=300)
 plt.show()
+
 
 ################################################################################
 
@@ -66,26 +53,11 @@ location_performance_age_grade = df.groupby("Location Names")["Age Grade Deviati
 # Rank locations from fastest to slowest
 location_performance_age_grade = location_performance_age_grade.sort_values()
 
-location_performance_age_grade.to_csv('location_difficulty_age_grade', index=False)
+location_performance_age_grade.to_csv('Data/location_difficulty_age_grade', index=False)
 
 #####################################################
 
 # visualisations
-
-# # Plot top 20 fastest locations
-# location_performance_age_grade.head(20).plot(kind='barh', figsize=(10, 8), color='green')
-# plt.xlabel("Avg Age Grade Deviation (Percent)")
-# plt.title("Top 20 Fastest Parkrun Locations")
-# plt.gca().invert_yaxis()  # So rank 1 is at the top
-# plt.tight_layout()
-# plt.show()
-
-# # Plot top 20 slowest locations
-# location_performance_age_grade.tail(20).plot(kind='barh', figsize=(10, 8), color='red')
-# plt.xlabel("Avg Age Grade Deviation (Percent)")
-# plt.title("Top 20 Slowest Parkrun Locations")
-# plt.tight_layout()
-# plt.show()
 
 plt.figure(figsize=(10, 6))
 sns.histplot(location_performance_age_grade, bins=30, kde=True)
@@ -97,8 +69,10 @@ plt.savefig("Data/Graphs/Distribution_Age_Grade_deviations.png")
 plt.show()
 
 location_performance_age_grade.plot(kind='barh', figsize=(10, 15), color='red')
+plt.gca().invert_yaxis()
+plt.gca().invert_xaxis()
 plt.xlabel("Avg Age Grade Deviation (Percent)")
-plt.title("Relative Difficulty of Irish Parkruns")
+plt.title("Relative Difficulty of Irish Parkruns (Age Grade)")
 plt.tight_layout()
 plt.savefig("Data/Graphs/relative_difficulty(Age Grade).png", dpi=300)
 plt.show()
